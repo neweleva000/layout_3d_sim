@@ -1,0 +1,13 @@
+Build the virtual environment:
+cd layout_sim_3d
+python -m venv .
+
+Install the requirements
+Run the file layout_3d_sim.sh to simulate the layout of 
+
+xxx
+
+This README needs an update but you can run ./layout_3d_sim.sh and simulate a model in a self explanator way
+
+Show the s parameters by:
+python ./rfems/show_results.py sim_objects.npz
