@@ -61,7 +61,7 @@ def main(filename):
 
     f = res.f
     s = res.s
-    z = res.z
+    #z = res.z
     plot_sparameters(f, s)
 
     if hasattr(res, 'Dmax'):

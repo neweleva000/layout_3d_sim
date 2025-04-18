@@ -1,11 +1,11 @@
 #!/bin/bash
 #User customizable files
 layout_py="./example.py"
-gds_result="./top1_ex.gds"
+gds_result=$1
 stl_binary_dir="./presentation_demo"
 stl_ascii_dir="./presentation_demo_dir"
 zip_to_file=$PWD
-BW="7.0e8"
+BW="5.0e8"
 center_freq="60e9"
 threads=2
 
@@ -22,12 +22,6 @@ pitch=0.0001
 ./cleanup.sh
 mkdir -p $stl_ascii_dir
 mkdir -p $stl_binary_dir
-
-
-#Generate layout file
-echo "Generating layout."
-python3 $layout_py
-echo "Generation complete."
 
 echo "Copying gds file"
 cp  $gds_result $stl_binary_dir

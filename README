@@ -11,3 +11,11 @@ This README needs an update but you can run ./layout_3d_sim.sh and simulate a mo
 
 Show the s parameters by:
 python ./rfems/show_results.py sim_objects.npz
+
+Results are otherwise available in the npz
+
+Specify number of each topology to generate then run:
+python rand_top_sim.py
+
+The result will be the specified number of results in your directory
+

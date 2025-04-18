@@ -7,6 +7,7 @@ from CSXCAD import ContinuousStructure
 
 STL_TOL = .001  # mm
 STL_UNIT = 1e-3
+MAX_TIME_STEP = 1e6
 
 DEFAULT_PITCH = 1e-3
 DEFAULT_POINTS = 1000  # even to ensure group delay calculation
@@ -241,7 +242,7 @@ def setup_simulation(CSX):
         kw['EndCriteria'] = 10 ** (args.criteria / 10)
     if args.dump_pec:
         kw['NrTS'] = 0
-    FDTD = openEMS(CellConstantMaterial=not average, **kw) 
+    FDTD = openEMS(NrTS=MAX_TIME_STEP, CellConstantMaterial=not average, **kw) 
     FDTD.SetGaussExcite(fo, span / 2)
     boundary = [ 'MUR' if args.farfield else 'PEC' ] * 6
     FDTD.SetBoundaryCond(boundary)
@@ -303,7 +304,8 @@ def save_results(filename, f, s, z, ff):
     root, ext = os.path.splitext(filename)
     if ext != '.npz':
         filename = f'{root}.npz'
-    np.savez(filename, f=f, s=s, z=z, **ff)
+    #np.savez(filename, f=f, s=s, z=z, **ff)
+    np.savez(filename, f=f, s=s, **ff)
 
 
 def is_applesilicon():
