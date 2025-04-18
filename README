@@ -3,6 +3,9 @@ cd layout_sim_3d
 python -m venv .
 
 Install the requirements
+pip install -r requirements.txt
+
+
 Run the file layout_3d_sim.sh to simulate the layout of 
 
 xxx
