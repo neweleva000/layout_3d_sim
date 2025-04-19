@@ -80,6 +80,28 @@ def gen_topology2(stackup_w, stackup_l, *args):
     return signal
         
 
+def gen_topology3(stackup_w, stackup_l, *args):
+    w = args[0][0]
+    spacing_l = float(args[0][1])
+    overlap_l = float(args[0][2])
+    spacing_w = float(args[0][3])
+    split_at_l = float(args[0][4])
+
+    l_after_split = stackup_l - spacing_l - split_at_l
+    start_x = (stackup_w - w)/2
+    start_y = 0
+
+    signal = Conductor_filter(start_x, start_y, layer_sig)
+    signal.add_series(split_at_l, w, "up")
+    signal.add_series(spacing_w, w, "right")
+    signal.add_series(overlap_l+w, w, "up")
+    signal.add_series_void(-overlap_l + spacing_l - w, "up")
+    signal.add_series_void(-spacing_w -w, "right")
+    signal.add_series(l_after_split, w, "up")
+
+    return signal
+
+
 
 def gen_full(topology_func, stackup_w, stackup_l, name,\
         *args):
@@ -135,8 +157,10 @@ def gen_ex1():
 
 def main():
     top1_width = 0.01
-    gen_full(gen_topology1, 0.5, 0.5, "top1_ex", \
-            top1_width)
+    #gen_full(gen_topology1, 0.5, 0.5, "top1_ex", \
+    #        top1_width)
+    #sp_w = (0.5 - wid)/2 - wid - sp_w
+    gen_full(gen_topology3, 0.5, 0.5, "top3_ex", 0.1, 0.05, 0.1, 0.1 , 0.1)
     #gen_ex1()
 
 if __name__ == '__main__':
