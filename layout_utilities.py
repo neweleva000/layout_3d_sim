@@ -114,6 +114,7 @@ def gen_full(topology_func, stackup_w, stackup_l, name,\
     generator.build_layout()
     generator.gen_file(name + ".gds")
     generator.display_layout()
+    generator.gen_image(name)
 
 
 

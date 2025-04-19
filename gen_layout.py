@@ -1,6 +1,50 @@
 #TODO -- generate rectange using new architecture
 import gdspy
 import pudb
+import matplotlib.pyplot as plt
+import numpy as np
+
+def create_png_from_gds(input_file, output_file, layer):
+    gnd_color = "blue"
+    sig_color = "black"
+    # Load the GDS file
+    gds_lib = gdspy.GdsLibrary()
+    try:
+        gds_lib.read_gds(input_file)
+    except Exception as e:
+        print(f"Error reading GDS file: {e}")
+        return
+    
+    # Get the top-level cell (assuming the first cell is the top cell)
+    try:
+        top_cell = list(gds_lib.top_level())[0]
+    except IndexError:
+        print("No top-level cell found in GDS file.")
+        return
+    
+    # Get all polygons in the cell, organized by layer and datatype
+    polygons = top_cell.get_polygons(by_spec=True)
+    
+    # Create a matplotlib figure
+    plt.figure(figsize=(8, 8))
+    
+    # Check if the specified layer exists and plot its polygons in black
+    layer_found = False
+    for (lay, datatype), poly_list in polygons.items():
+        if lay == 0:
+            for poly in poly_list:
+                plt.fill(poly[:, 0], poly[:, 1], color=gnd_color, alpha=1.0)
+
+        if lay == layer:
+            layer_found = True
+            for poly in poly_list:
+                plt.fill(poly[:, 0], poly[:, 1], color=sig_color, alpha=1.0)
+    
+    plt.axis('off')
+    
+    # Save the plot as a PNG
+    plt.savefig(output_file, dpi=300, bbox_inches='tight')
+    plt.close()
 
 #goal specify filter kind and have it take recquisite parameters and gen layout
 #class which has filter object and generates layout
@@ -30,6 +74,13 @@ class Layout_gen():
 
     def gen_file(self, file_name='filter_name'):
         self.lib.write_gds(file_name)
+
+    def gen_image(self, file_name):
+        #self.cell.write_svg(file_name + ".svg")
+        #os.system("./mk_png.sh " + file_name)
+        create_png_from_gds(file_name + ".gds",\
+                file_name + ".png", 2)
+
 
     #Rotate layout
     def rotate_layout(self):
