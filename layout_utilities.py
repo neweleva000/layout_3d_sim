@@ -52,9 +52,34 @@ def gen_topology1(stackup_w, stackup_l, *args):
     start_y = 0
 
     signal = Conductor_filter(start_x, start_y, layer_sig)
-    #quarterwave transformer at 300M
     signal.add_series(stackup_l, w, "up")
     return signal
+
+def gen_topology2(stackup_w, stackup_l, *args):
+
+    num_stubs = int(args[0][0])
+    main_w = float(args[0][1])
+
+    start_x = (stackup_w - main_w)/2
+    start_y = 0
+
+    stub_w = []
+    stub_l = []
+    stub_dims = list(args[0][2])
+    for stub in range(num_stubs):
+        stub_w.append(stub_dims[2*stub+0])
+        stub_l.append(stub_dims[2*stub+1])
+
+    stub_spacing = stackup_l / num_stubs
+
+
+    signal = Conductor_filter(start_x, start_y, layer_sig)
+    for s in range(num_stubs):
+        signal.add_series(stub_spacing, main_w, "up")
+        signal.add_shunt(stub_l[s], stub_w[s], "right")
+    return signal
+        
+
 
 def gen_full(topology_func, stackup_w, stackup_l, name,\
         *args):

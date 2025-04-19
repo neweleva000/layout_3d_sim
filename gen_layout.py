@@ -117,11 +117,11 @@ class Conductor_filter():
         new_tline = True
         if direction == "up":
             t_line = Rect_Spec(self.curr_x + dir_offset, self.curr_y,\
-                    self.curr_x + width + dir_offset, self.curr_y + length, self.layer)
+                    self.curr_x + width + dir_offset, self.curr_y + length)
         if direction == "right":
             self.curr_x += self.prev_delta_x
             t_line= Rect_Spec(self.curr_x, self.curr_y + dir_offset,\
-                    self.curr_x + length, self.curr_y -width + dir_offset, self.layer)
+                    self.curr_x + length, self.curr_y -width + dir_offset)
             self.curr_x -= self.prev_delta_x
 
         if direction == "left":
